@@ -16,11 +16,15 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        let playImage = UIImage(systemName: SFSymbolKey.Play.rawValue)
+        let playImage = UIImage(systemName: SFSymbolKey.Play.rawValue,
+            withConfiguration: UIImage.SymbolConfiguration(
+                    pointSize: 40, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(playImage, for: UIControl.State.normal)
-        let pauseImage = UIImage(systemName: SFSymbolKey.Pause.rawValue)
-        button.setImage(pauseImage, for: UIControl.State.selected)
         
+        let pauseImage = UIImage(systemName: SFSymbolKey.Pause.rawValue, withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 50, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        button.setImage(pauseImage, for: UIControl.State.selected)
+
         /*button.addTarget(self, action: #selector(self.touchUpPlayButton(_:)), for: UIControl.Event.touchUpInside)*/
         
        return button
@@ -49,18 +53,22 @@ class ViewController: UIViewController {
     }()
     
     
-    var progressSliderView: UIView = {
-        let totalView = UIView(frame: .zero)
+    var progressSliderView: UISlider = {
         let slider = UISlider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = .white
+       return slider
+        
+    } ()
+    
+    var progressText: UIView = {
+        let totalView = UIView(frame: .zero)
         let startText = UILabel()
         let endText = UILabel()
         
         totalView.translatesAutoresizingMaskIntoConstraints = false
-        slider.translatesAutoresizingMaskIntoConstraints = false
         startText.translatesAutoresizingMaskIntoConstraints = false
         endText.translatesAutoresizingMaskIntoConstraints = false
-        
-        slider.minimumTrackTintColor = .white
         
         startText.textColor = .gray
         startText.text = "1:59"
@@ -68,30 +76,25 @@ class ViewController: UIViewController {
         endText.textColor = .gray
         endText.text = "-1:54"
         endText.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
-        // addTarget
         
-        totalView.addSubview(slider)
         totalView.addSubview(startText)
         totalView.addSubview(endText)
-        
         NSLayoutConstraint.activate([
-            slider.widthAnchor.constraint(equalTo: totalView.widthAnchor),
-            slider.topAnchor.constraint(equalTo: totalView.topAnchor),
-            
-            startText.topAnchor.constraint(equalTo: slider.bottomAnchor),
+            startText.topAnchor.constraint(equalTo: totalView.bottomAnchor),
             startText.leadingAnchor.constraint(equalTo: totalView.leadingAnchor),
-            endText.topAnchor.constraint(equalTo: slider.bottomAnchor),
+            endText.topAnchor.constraint(equalTo: totalView.bottomAnchor),
             endText.trailingAnchor.constraint(equalTo: totalView.trailingAnchor)
-            
         ])
         return totalView
     } ()
     
-    /*var volumeSlider: UISlider = {
+    var volumeSlider: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = .white
         
-    }*/
+        return slider
+    } ()
 
     // others
     var middleStateBar: UIView = {
@@ -136,19 +139,22 @@ class ViewController: UIViewController {
         return iconView
     } ()
     
-    /*var backWard: UIImageView = {
-        
+    let backWard: UIImageView = {
+        let aBackWard = UIImage(systemName: SFSymbolKey.Backward.rawValue, withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 25, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let aBackWardView = UIImageView(image: aBackWard)
+        aBackWardView.translatesAutoresizingMaskIntoConstraints = false
+        return aBackWardView
     } ()
     var foreWard: UIImageView = {
+        let aForeWard = UIImage(systemName: SFSymbolKey.Forward.rawValue, withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 25, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let aForeWardView = UIImageView(image: aForeWard)
+        aForeWardView.translatesAutoresizingMaskIntoConstraints = false
         
+        return aForeWardView
     } ()
-    var volumeZero: UIImageView = {
-        
-    } ()
-    var volumeFull: UIImageView = {
-        
-    } ()*/
-    //var footerImageSet: UICollectionView
+    
     
     
     // MARK: Custom Func
@@ -157,6 +163,11 @@ class ViewController: UIViewController {
         self.musicView.addSubview(imageView)
         self.musicView.addSubview(middleIcon)
         self.musicView.addSubview(progressSliderView)
+        self.musicView.addSubview(progressText)
+        self.musicView.addSubview(playPauseButton)
+        self.musicView.addSubview(backWard)
+        self.musicView.addSubview(foreWard)
+        self.musicView.addSubview(volumeSlider)
     }
     
     @objc func touchUpPlayButton(_ sender: UIButton) {
@@ -173,33 +184,49 @@ class ViewController: UIViewController {
         self.addSubViewTomusicView()
         
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: musicView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: musicView.centerYAnchor, constant: -140.0),
-            imageView.widthAnchor.constraint(equalToConstant: 250),
-            imageView.heightAnchor.constraint(equalToConstant: 250),
-            
             musicView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             musicView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             musicView.widthAnchor.constraint(equalTo: view.widthAnchor),
             musicView.heightAnchor.constraint(equalTo: view.heightAnchor),
             
-            middleStateBar.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 80),
+            imageView.centerXAnchor.constraint(equalTo: musicView.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: musicView.centerYAnchor, constant: -160.0),
+            imageView.widthAnchor.constraint(equalToConstant: 250),
+            imageView.heightAnchor.constraint(equalToConstant: 250),
+            
+            middleStateBar.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 70),
             middleStateBar.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             middleStateBar.leadingAnchor.constraint(equalTo: musicView.leadingAnchor, constant: 30),
             middleStateBar.heightAnchor.constraint(equalToConstant: 25),
             
             middleIcon.trailingAnchor.constraint(equalTo: musicView.trailingAnchor, constant: -30),
             middleIcon.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 80),
-            middleIcon.widthAnchor.constraint(equalToConstant: 20),
-            middleIcon.heightAnchor.constraint(equalToConstant: 20),
+            middleIcon.widthAnchor.constraint(equalToConstant: 25),
+            middleIcon.heightAnchor.constraint(equalToConstant: 25),
             
             progressSliderView.topAnchor.constraint(equalTo: middleStateBar.bottomAnchor, constant: 30),
-            progressSliderView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 16 ),
-            progressSliderView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -16),
+            progressSliderView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 32 ),
+            progressSliderView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -32),
             
+            progressText.topAnchor.constraint(equalTo: progressSliderView.bottomAnchor, constant: 1),
+            progressText.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 32),
+            progressText.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -32),
+            playPauseButton.topAnchor.constraint(equalTo: progressSliderView.bottomAnchor, constant: 60),
+            playPauseButton.centerXAnchor.constraint(equalTo: musicView.centerXAnchor),
+            
+            backWard.topAnchor.constraint(equalTo: playPauseButton.topAnchor, constant: 10),
+            backWard.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 45),
+            foreWard.topAnchor.constraint(equalTo: playPauseButton.topAnchor, constant: 10),
+            foreWard.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
+            
+            // no volume
+            volumeSlider.topAnchor.constraint(equalTo: playPauseButton.bottomAnchor, constant: 10),
+            volumeSlider.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 45),
+            volumeSlider.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
+            // full volume
+            // imgSet
         ])
         
     }
 
 }
-
