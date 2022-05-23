@@ -56,7 +56,9 @@ class ViewController: UIViewController {
     var progressSliderView: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumTrackTintColor = .white
+        slider.minimumTrackTintColor = UIColor(hue: 0, saturation: 0, brightness: 0.68, alpha: 1.0)
+        let circle = UIImage(named: "smallThumbImage")
+        slider.setThumbImage(circle, for: .normal)
        return slider
         
     } ()
@@ -155,7 +157,36 @@ class ViewController: UIViewController {
         return aForeWardView
     } ()
     
+    var footerImageSet: UIView = {
+        let footerView = UIView(frame:  .zero)
+        let quoteBubble = UIImage(systemName: SFSymbolKey.QuoteBubble.rawValue, withConfiguration: UIImage.SymbolConfiguration( pointSize: 20, weight: .regular, scale: .medium))?.withTintColor(.white,
+            renderingMode: .alwaysOriginal)
+        let quoteView = UIImageView(image: quoteBubble)
+        
+        let raidoWaves = UIImage(systemName: SFSymbolKey.RadioWaves.rawValue,
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let radioWavesView = UIImageView(image: raidoWaves)
+        
+        let plusMagnify = UIImage(systemName: SFSymbolKey.PlusMagnify.rawValue, withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let plusMagnifyView = UIImageView(image: plusMagnify)
+        
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        quoteView.translatesAutoresizingMaskIntoConstraints = false
+        radioWavesView.translatesAutoresizingMaskIntoConstraints = false
+        plusMagnifyView.translatesAutoresizingMaskIntoConstraints = false
+        
+        footerView.addSubview(quoteView)
+        footerView.addSubview(radioWavesView)
+        footerView.addSubview(plusMagnifyView)
+        
+        NSLayoutConstraint.activate([
+            quoteView.leadingAnchor.constraint(equalTo: footerView.leadingAnchor),
+            radioWavesView.centerXAnchor.constraint(equalTo: footerView.centerXAnchor),
+            plusMagnifyView.trailingAnchor.constraint(equalTo: footerView.trailingAnchor)
+        ])
     
+        return footerView
+    } ()
     
     // MARK: Custom Func
     func addSubViewTomusicView() {
@@ -168,6 +199,7 @@ class ViewController: UIViewController {
         self.musicView.addSubview(backWard)
         self.musicView.addSubview(foreWard)
         self.musicView.addSubview(volumeSlider)
+        self.musicView.addSubview(footerImageSet)
     }
     
     @objc func touchUpPlayButton(_ sender: UIButton) {
@@ -220,11 +252,14 @@ class ViewController: UIViewController {
             foreWard.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
             
             // no volume
-            volumeSlider.topAnchor.constraint(equalTo: playPauseButton.bottomAnchor, constant: 10),
+            volumeSlider.topAnchor.constraint(equalTo: playPauseButton.bottomAnchor, constant: 20),
             volumeSlider.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 45),
             volumeSlider.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
-            // full volume
             // imgSet
+            footerImageSet.leadingAnchor.constraint(equalTo:safeAreaGuide.leadingAnchor,
+                                                   constant: 60),
+            footerImageSet.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -60),
+            footerImageSet.topAnchor.constraint(equalTo: volumeSlider.bottomAnchor, constant: 15)
         ])
         
     }

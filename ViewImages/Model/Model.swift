@@ -23,6 +23,7 @@ enum SFSymbolKey: String {
     
     case QuoteBubble = "quote.bubble"
     case ListBullet = "list.bullet"
+    case RadioWaves = "dot.radiowaves.left.and.right"
     case PlusMagnify = "plus.magnifyingglass"
     // case: circle in arrow
     
