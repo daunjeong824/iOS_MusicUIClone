@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import AVFAudio
 
 class ViewController: ViewSet {
     // MARK: property
     var gradientLayer: CAGradientLayer!
+    var timer: Timer!
+    var totalTime: [Int]!
     private let model = Model()
     
     func addSubViewToMusicView() {
@@ -29,9 +32,18 @@ class ViewController: ViewSet {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        // get runtime-var & set eventHandler
         addGradient()
         self.playPauseButton.addTarget(self, action: #selector(touchUpPlayButton(_:)), for: UIControl.Event.touchUpInside)
+        self.progressSliderView.addTarget(self, action: #selector(ChangeProgressSlider(_:)), for: UIControl.Event.valueChanged)
+        
+        let aTotalTime = GetTimeLabelText(time: self.model.player.duration)
+        totalTime = aTotalTime
+        ChangeLabelsInView(view: progressText, index: 1, toChangeText: "-\(totalTime[0]):\(totalTime[1])")
+        // set initial config
+        progressSliderView.maximumValue = Float(self.model.player.duration)
+        progressSliderView.minimumValue = 0
+        progressSliderView.value = Float(self.model.player.currentTime)
         
         let safeAreaGuide = self.view.safeAreaLayoutGuide
         self.view.addSubview(musicView)
@@ -93,6 +105,53 @@ class ViewController: ViewSet {
         self.view.layer.addSublayer(gradientLayer)
     }
 
+    func GetTimeLabelText(time: TimeInterval) -> [Int] {
+        let minute = Int(time / 60)
+        let second = Int(time.truncatingRemainder(dividingBy: 60))
+        let result: [Int] = [minute, second]
+        return result
+    }
+    
+    func ChangeLabelsInView(view: UIView, index: Int, toChangeText: String) {
+        var count: Int = 0
+        for subView in view.subviews as [UIView] {
+            if let labelView = subView as? UILabel {
+                if count == index {
+                    labelView.text = toChangeText
+                }
+            }
+            count += 1
+        }
+    }
+    
+    func MakeAndFireTimer() {
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:
+            // Closure
+            { [unowned self] (timer: Timer) in
+            
+            if progressSliderView.isTracking { return }
+            let currentTime = GetTimeLabelText(time: self.model.player.currentTime)
+            let calcTime = self.model.player.duration - self.model.player.currentTime
+            var reminderTime = GetTimeLabelText(time: calcTime)
+            
+            ChangeLabelsInView(view: progressText, index: 0, toChangeText: "\(currentTime[0]):\(currentTime[1])")
+            ChangeLabelsInView(view: progressText, index: 1, toChangeText: "-\(reminderTime[0]):\(reminderTime[1])")
+            progressSliderView.value = Float(self.model.player.currentTime)
+        })
+        self.timer.fire()
+    }
+    
+    func invalidateTimer() {
+        self.timer.invalidate()
+        self.timer = nil
+    }
+    
+    func audioPlayerDidFinished(_ player: AVAudioPlayer, successfully flag: Bool) {
+        playPauseButton.isSelected = false
+        self.progressSliderView.value = 0
+        ChangeLabelsInView(view: progressText, index: 0, toChangeText: "0:00")
+        ChangeLabelsInView(view: progressText, index: 1, toChangeText: "-\(totalTime[0]):\(totalTime[1])")
+    }
     // MARK: Event Handler
     @objc func touchUpPlayButton(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
@@ -102,13 +161,21 @@ class ViewController: ViewSet {
         } else {
             self.model.player?.pause()
         }
+        
+        if sender.isSelected {
+            self.MakeAndFireTimer()
+        } else {
+            self.invalidateTimer()
+        }
+    }
+    @objc func ChangeProgressSlider(_ sender: UISlider) {
+        let toChangeTime = GetTimeLabelText(time: TimeInterval(sender.value))
+        let calcTime = self.model.player.duration - TimeInterval(sender.value)
+        let reminderTime = GetTimeLabelText(time: calcTime)
+        
+        ChangeLabelsInView(view: progressText, index: 0, toChangeText: "\(toChangeTime[0]):\(toChangeTime[1])")
+        ChangeLabelsInView(view: progressText, index: 1, toChangeText: "-\(reminderTime[0]):\(toChangeTime[1])")
+        if sender.isTracking { return }
+        self.model.player.currentTime = TimeInterval(sender.value)
     }
 }
-
-// MARK: Delegate Implementation
-/*extension ViewController: ModelDelegate {
-    func modelDidFinishInitizePlayer(player: AVAudioPlayer) {
-        // Progress Bar 초기화 시작
-        if self
-    }
-}*/

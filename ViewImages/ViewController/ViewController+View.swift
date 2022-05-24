@@ -67,10 +67,10 @@ class ViewSet: UIViewController {
         endText.translatesAutoresizingMaskIntoConstraints = false
         
         startText.textColor = .white
-        startText.text = "1:59"
+        startText.text = "0:00"
         startText.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
         endText.textColor = .white
-        endText.text = "-1:54"
+        endText.text = "-0:00"
         endText.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
         
         totalView.addSubview(startText)
