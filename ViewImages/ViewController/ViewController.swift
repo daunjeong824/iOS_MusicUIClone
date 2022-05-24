@@ -8,10 +8,8 @@
 import UIKit
 
 class ViewController: ViewSet {
-    
     // MARK: property
-
-    
+    var gradientLayer: CAGradientLayer!
     // MARK: Custom Func
     
     func addSubViewTomusicView() {
@@ -34,6 +32,11 @@ class ViewController: ViewSet {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.gradientLayer = CAGradientLayer()
+        self.gradientLayer.frame = self.view.bounds
+        self.gradientLayer.colors = [UIColor.systemGray.cgColor,  UIColor(red: 0.6588, green: 0.3922, blue: 0, alpha: 1.0).cgColor, UIColor.systemGray.cgColor]
+        self.view.layer.addSublayer(gradientLayer)
         
         //self.view.backgroundColor = .clear
         let safeAreaGuide = self.view.safeAreaLayoutGuide

@@ -21,7 +21,7 @@ enum SFSymbolKey: String {
     case Battery = "battery.75"
     // case: 3 histogram
     
-    case QuoteBubble = "quote.bubble"
+    case QuoteBubble = "quote.bubble.fill"
     case ListBullet = "list.bullet"
     case RadioWaves = "dot.radiowaves.left.and.right"
     case PlusMagnify = "plus.magnifyingglass"
