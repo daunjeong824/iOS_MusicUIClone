@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3523D8EE283CAE9400BC7E55 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523D8ED283CAE9400BC7E55 /* UIImage+Extension.swift */; };
 		3540A3AC283BC84A0094D9E2 /* ViewController+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3540A3AB283BC84A0094D9E2 /* ViewController+View.swift */; };
 		355FDCCB283933DA00C49D1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355FDCCA283933DA00C49D1F /* AppDelegate.swift */; };
 		355FDCCD283933DA00C49D1F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355FDCCC283933DA00C49D1F /* SceneDelegate.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3523D8ED283CAE9400BC7E55 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3540A3AB283BC84A0094D9E2 /* ViewController+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+View.swift"; sourceTree = "<group>"; };
 		355FDCC7283933DA00C49D1F /* ViewImages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewImages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		355FDCCA283933DA00C49D1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				355FDCDF2839407D00C49D1F /* Model.swift */,
+				3523D8ED283CAE9400BC7E55 /* UIImage+Extension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 				3540A3AC283BC84A0094D9E2 /* ViewController+View.swift in Sources */,
 				355FDCCF283933DA00C49D1F /* ViewController.swift in Sources */,
 				355FDCCB283933DA00C49D1F /* AppDelegate.swift in Sources */,
+				3523D8EE283CAE9400BC7E55 /* UIImage+Extension.swift in Sources */,
 				355FDCCD283933DA00C49D1F /* SceneDelegate.swift in Sources */,
 				355FDCE02839407D00C49D1F /* Model.swift in Sources */,
 			);

@@ -20,10 +20,8 @@ class ViewSet: UIViewController {
         button.setImage(playImage, for: UIControl.State.normal)
         
         let pauseImage = UIImage(systemName: SFSymbolKey.Pause.rawValue, withConfiguration: UIImage.SymbolConfiguration(
-            pointSize: 50, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+            pointSize: 45, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(pauseImage, for: UIControl.State.selected)
-
-        /*button.addTarget(self, action: #selector(self.touchUpPlayButton(_:)), for: UIControl.Event.touchUpInside)*/
         
        return button
     }()
@@ -31,7 +29,6 @@ class ViewSet: UIViewController {
     var musicView: UIView = {
         let aMusicView = UIView()
         aMusicView.backgroundColor = .clear
-        
         
         aMusicView.translatesAutoresizingMaskIntoConstraints = false
         return aMusicView
@@ -50,11 +47,10 @@ class ViewSet: UIViewController {
         return aImageView
     }()
     
-    
     var progressSliderView: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumTrackTintColor = UIColor(hue: 0, saturation: 0, brightness: 0.68, alpha: 1.0)
+        slider.minimumTrackTintColor = UIColor(hue: 0, saturation: 0, brightness: 0.76, alpha: 0.7)
         let circle = UIImage(named: "smallThumbImage")
         slider.setThumbImage(circle, for: .normal)
        return slider
@@ -95,10 +91,10 @@ class ViewSet: UIViewController {
         let fullSound = UIImage(systemName: "speaker.wave.3", withConfiguration: config)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumTrackTintColor = .white
+        slider.minimumTrackTintColor = UIColor(hue: 0, saturation: 0, brightness: 0.76, alpha: 0.7)
         slider.minimumValueImage = noSound
         slider.maximumValueImage = fullSound
-        //UIColor(hue: 0, saturation: 0, brightness: 0.68, alpha: 1.0)
+
         return slider
     } ()
 
@@ -141,7 +137,8 @@ class ViewSet: UIViewController {
         let iconView = UIImageView()
         iconView.image = icon?.withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2))
         
-        iconView.backgroundColor = .gray
+        iconView.backgroundColor = .lightGray
+        iconView.alpha = 0.7
         iconView.layer.cornerRadius = 10
         iconView.contentMode = .scaleAspectFill
         iconView.translatesAutoresizingMaskIntoConstraints = false
@@ -156,6 +153,7 @@ class ViewSet: UIViewController {
         aBackWardView.translatesAutoresizingMaskIntoConstraints = false
         return aBackWardView
     } ()
+    
     var foreWard: UIImageView = {
         let aForeWard = UIImage(systemName: SFSymbolKey.Forward.rawValue, withConfiguration: UIImage.SymbolConfiguration(
             pointSize: 25, weight: .bold, scale: .large))?.withTintColor(.white, renderingMode: .alwaysOriginal)
@@ -172,17 +170,18 @@ class ViewSet: UIViewController {
         let quoteView = UIImageView()
         quoteView.image = quoteBubble?.withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2)) // 왜 안됨?
         quoteView.layer.cornerRadius = 6.0
-        quoteView.backgroundColor = .gray
+        quoteView.alpha = 0.7
+        quoteView.backgroundColor = .white
         quoteView.contentMode = .scaleAspectFill
-        
-        
         
         let raidoWaves = UIImage(systemName: SFSymbolKey.RadioWaves.rawValue,
             withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let radioWavesView = UIImageView(image: raidoWaves)
+        radioWavesView.alpha = 0.7
         
         let listBullet = UIImage(systemName: SFSymbolKey.ListBullet.rawValue, withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let listBulletView = UIImageView(image: listBullet)
+        listBulletView.alpha = 0.7
         
         footerView.translatesAutoresizingMaskIntoConstraints = false
         quoteView.translatesAutoresizingMaskIntoConstraints = false

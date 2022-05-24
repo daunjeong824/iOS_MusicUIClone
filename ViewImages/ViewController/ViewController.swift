@@ -10,9 +10,9 @@ import UIKit
 class ViewController: ViewSet {
     // MARK: property
     var gradientLayer: CAGradientLayer!
-    // MARK: Custom Func
+    private let model = Model()
     
-    func addSubViewTomusicView() {
+    func addSubViewToMusicView() {
         self.musicView.addSubview(middleStateBar)
         self.musicView.addSubview(imageView)
         self.musicView.addSubview(middleIcon)
@@ -25,23 +25,17 @@ class ViewController: ViewSet {
         self.musicView.addSubview(footerImageSet)
     }
     
-    @objc func touchUpPlayButton(_ sender: UIButton) {
-        
-    }
-    
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.gradientLayer = CAGradientLayer()
-        self.gradientLayer.frame = self.view.bounds
-        self.gradientLayer.colors = [UIColor.systemGray.cgColor,  UIColor(red: 0.6588, green: 0.3922, blue: 0, alpha: 1.0).cgColor, UIColor.systemGray.cgColor]
-        self.view.layer.addSublayer(gradientLayer)
         
-        //self.view.backgroundColor = .clear
+        addGradient()
+        self.playPauseButton.addTarget(self, action: #selector(touchUpPlayButton(_:)), for: UIControl.Event.touchUpInside)
+        
         let safeAreaGuide = self.view.safeAreaLayoutGuide
         self.view.addSubview(musicView)
-        self.addSubViewTomusicView()
+        self.addSubViewToMusicView()
         
         NSLayoutConstraint.activate([
             musicView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -80,7 +74,7 @@ class ViewController: ViewSet {
             foreWard.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
             
             // no volume
-            volumeSlider.topAnchor.constraint(equalTo: playPauseButton.bottomAnchor, constant: 20),
+            volumeSlider.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 290),
             volumeSlider.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 45),
             volumeSlider.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -45),
             // imgSet
@@ -91,5 +85,30 @@ class ViewController: ViewSet {
         ])
         
     }
+    // MARK: Custom Func
+    func addGradient() {
+        self.gradientLayer = CAGradientLayer()
+        self.gradientLayer.frame = self.view.bounds
+        self.gradientLayer.colors = [UIColor.systemGray.cgColor,  UIColor(red: 0.6588, green: 0.3922, blue: 0, alpha: 1.0).cgColor, UIColor.systemGray.cgColor]
+        self.view.layer.addSublayer(gradientLayer)
+    }
 
+    // MARK: Event Handler
+    @objc func touchUpPlayButton(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        
+        if sender.isSelected {
+            self.model.player?.play()
+        } else {
+            self.model.player?.pause()
+        }
+    }
 }
+
+// MARK: Delegate Implementation
+/*extension ViewController: ModelDelegate {
+    func modelDidFinishInitizePlayer(player: AVAudioPlayer) {
+        // Progress Bar 초기화 시작
+        if self
+    }
+}*/
