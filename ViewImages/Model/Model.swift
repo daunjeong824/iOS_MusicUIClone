@@ -7,9 +7,9 @@
 import UIKit
 import AVFoundation
 
-protocol ModelDelegate : AnyObject {
-    func modelDidFinishInitizePlayer(player: AVAudioPlayer)
-}
+/*protocol ModelDelegate : AnyObject {
+    func playerDidFinishMusic(player: AVAudioPlayer)
+}*/
 
 class Model {
     var musicAsset: NSDataAsset!
@@ -27,7 +27,5 @@ class Model {
         } catch let error as NSError {
             print("Player 초기화 실패.")
             }
-        //self.delegate?.modelDidFinishInitizePlayer(player: self.player)
     }
-
 }

@@ -110,6 +110,7 @@ class ViewSet: UIViewController {
         musicName.text = "Way Back Home"
         musicName.font = UIFont.systemFont(ofSize: CGFloat(20))
         musicName.textColor = .white
+        musicName.alpha = 0.75
         
         aStateBar.addSubview(singerName)
         aStateBar.addSubview(musicName)
